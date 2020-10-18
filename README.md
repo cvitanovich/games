@@ -17,3 +17,5 @@ The game is still incomplete but can be played by importing the project file "pr
 * Visit Mercury with the A key.
 * Visit Venus with the D key.
 
+## The Code:
+Most of the game code is written in GDScript or with Godot's built in visual shader language. Code is contained in *.gd* files and scene description files with the *.tscn* extension.
