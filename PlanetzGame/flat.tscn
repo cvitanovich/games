@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://images/GDEM-10km-BW.png" type="Texture" id=1]
+[ext_resource path="res://images/2k_earth_daymap.jpg" type="Texture" id=2]
+
+
+[sub_resource type="VisualShaderNodeTexture" id=1]
+texture = ExtResource( 2 )
+
+[sub_resource type="VisualShaderNodeTexture" id=2]
+texture = ExtResource( 1 )
+
+[sub_resource type="VisualShader" id=3]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_2;
+uniform sampler2D tex_frg_3;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, UV.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Texture:3
+	vec4 tex_frg_3_read = texture(tex_frg_3, UV.xy);
+	vec3 n_out3p0 = tex_frg_3_read.rgb;
+	float n_out3p1 = tex_frg_3_read.a;
+
+// Output:0
+	ALBEDO = n_out2p0;
+	NORMALMAP = n_out3p0;
+	NORMALMAP_DEPTH = dot(n_out3p0, vec3(0.333333, 0.333333, 0.333333));
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 251.411, 295.848 )
+nodes/fragment/2/node = SubResource( 1 )
+nodes/fragment/2/position = Vector2( 190, 114 )
+nodes/fragment/3/node = SubResource( 2 )
+nodes/fragment/3/position = Vector2( 133, 323 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 3, 0, 0, 8, 3, 0, 0, 9 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+
+[sub_resource type="PlaneMesh" id=5]
+material = SubResource( 4 )
+size = Vector2( 100, 100 )
+subdivide_width = 1
+subdivide_depth = 1
+
+[node name="Spatial" type="Spatial"]
+
+[node name="EarthFlat" type="MeshInstance" parent="."]
+mesh = SubResource( 5 )
+material/0 = null

@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/spaceCraftStand.obj-3cd7728f081216d0ab9e71ce2890c66d.mesh"
+
+[deps]
+
+files=[ "res://.import/spaceCraftStand.obj-3cd7728f081216d0ab9e71ce2890c66d.mesh" ]
+
+source_file="res://Models/spaceCraftStand.obj"
+dest_files=[ "res://.import/spaceCraftStand.obj-3cd7728f081216d0ab9e71ce2890c66d.mesh", "res://.import/spaceCraftStand.obj-3cd7728f081216d0ab9e71ce2890c66d.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -1,0 +1,640 @@
+[gd_scene load_steps=80 format=2]
+
+[ext_resource path="res://images/2k_sun.jpg" type="Texture" id=1]
+[ext_resource path="res://Earth.gd" type="Script" id=2]
+[ext_resource path="res://images/2k_stars.jpg" type="Texture" id=3]
+[ext_resource path="res://images/2k_earth_daymap.jpg" type="Texture" id=4]
+[ext_resource path="res://images/2k_moon.jpg" type="Texture" id=5]
+[ext_resource path="res://Moon.gd" type="Script" id=6]
+[ext_resource path="res://images/GDEM-10km-BW.png" type="Texture" id=7]
+[ext_resource path="res://images/Clouds.png" type="Texture" id=8]
+[ext_resource path="res://Mars.gd" type="Script" id=9]
+[ext_resource path="res://images/2k_mars.jpg" type="Texture" id=10]
+[ext_resource path="res://images/2k_mercury.jpg" type="Texture" id=11]
+[ext_resource path="res://Mercury.gd" type="Script" id=12]
+[ext_resource path="res://images/2k_venus_surface.jpg" type="Texture" id=13]
+[ext_resource path="res://Venus.gd" type="Script" id=14]
+[ext_resource path="res://Spatial.gd" type="Script" id=15]
+[ext_resource path="res://CanvasLayer.gd" type="Script" id=16]
+[ext_resource path="res://Models/spaceCraft1.obj" type="ArrayMesh" id=17]
+[ext_resource path="res://ShipMesh.gd" type="Script" id=18]
+[ext_resource path="res://ShipTranslate.gd" type="Script" id=19]
+[ext_resource path="res://Topdown/barrel.png" type="Texture" id=20]
+[ext_resource path="res://sounds/boom8.wav" type="AudioStream" id=21]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Sun.gd" type="Script" id=23]
+[ext_resource path="res://sounds/cyberpunk.wav" type="AudioStream" id=24]
+
+[sub_resource type="VisualShaderNodeTexture" id=1]
+texture = ExtResource( 20 )
+
+[sub_resource type="VisualShaderNodeScalarFunc" id=2]
+output_port_for_preview = 0
+default_input_values = [ 0, 1.0 ]
+function = 0
+
+[sub_resource type="VisualShaderNodeColorConstant" id=3]
+constant = Color( 0.964844, 0.290707, 0.0565338, 1 )
+
+[sub_resource type="VisualShaderNodeInput" id=4]
+output_port_for_preview = 0
+input_name = "time"
+
+[sub_resource type="VisualShader" id=5]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, UV.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Input:5
+	float n_out5p0 = TIME;
+
+// ScalarFunc:3
+	float n_out3p0 = sin(n_out5p0);
+
+// Color:4
+	vec3 n_out4p0 = vec3(0.964844, 0.290707, 0.056534);
+	float n_out4p1 = 1.000000;
+
+// Output:0
+	ALBEDO = n_out2p0;
+	ALPHA = n_out3p0;
+	EMISSION = n_out4p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -215.59, 23.6111 )
+nodes/fragment/0/position = Vector2( 500, 140 )
+nodes/fragment/2/node = SubResource( 1 )
+nodes/fragment/2/position = Vector2( -160, 140 )
+nodes/fragment/3/node = SubResource( 2 )
+nodes/fragment/3/position = Vector2( 320, 260 )
+nodes/fragment/4/node = SubResource( 3 )
+nodes/fragment/4/position = Vector2( 320, 360 )
+nodes/fragment/5/node = SubResource( 4 )
+nodes/fragment/5/position = Vector2( 80, 220 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 3, 0, 0, 1, 4, 0, 0, 5, 5, 0, 3, 0 )
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 6 )
+
+[sub_resource type="SphereShape" id=8]
+
+[sub_resource type="VisualShaderNodeTexture" id=9]
+texture = ExtResource( 10 )
+
+[sub_resource type="VisualShader" id=10]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, UV.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 0, 150 )
+nodes/fragment/2/node = SubResource( 9 )
+nodes/fragment/2/position = Vector2( 76, 152 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
+
+[sub_resource type="SphereMesh" id=12]
+material = SubResource( 11 )
+
+[sub_resource type="SphereShape" id=13]
+
+[sub_resource type="SphereShape" id=14]
+
+[sub_resource type="SphereMesh" id=15]
+
+[sub_resource type="VisualShaderNodeInput" id=16]
+output_port_for_preview = 0
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeScalarFunc" id=17]
+output_port_for_preview = 0
+function = 17
+
+[sub_resource type="VisualShaderNodeTexture" id=18]
+output_port_for_preview = 0
+texture = ExtResource( 8 )
+texture_type = 2
+
+[sub_resource type="VisualShader" id=19]
+code = "shader_type spatial;
+render_mode depth_draw_alpha_prepass;
+
+uniform sampler2D tex_frg_4 : hint_normal;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:2
+	vec3 n_out2p0 = vec3(UV, 0.0);
+
+// Texture:4
+	vec4 tex_frg_4_read = texture(tex_frg_4, n_out2p0.xy);
+	vec3 n_out4p0 = tex_frg_4_read.rgb;
+	float n_out4p1 = tex_frg_4_read.a;
+
+// ScalarFunc:3
+	float n_out3p0 = fract(dot(n_out4p0, vec3(0.333333, 0.333333, 0.333333)));
+
+// Output:0
+	ALPHA = n_out3p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -215.59, 23.6111 )
+modes/depth_draw = 3
+nodes/fragment/0/position = Vector2( 640, 180 )
+nodes/fragment/2/node = SubResource( 16 )
+nodes/fragment/2/position = Vector2( -100, 160 )
+nodes/fragment/3/node = SubResource( 17 )
+nodes/fragment/3/position = Vector2( 440, 320 )
+nodes/fragment/4/node = SubResource( 18 )
+nodes/fragment/4/position = Vector2( 140, 280 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 4, 0, 3, 0, 0, 1, 4, 0, 3, 0 )
+
+[sub_resource type="ShaderMaterial" id=20]
+shader = SubResource( 19 )
+
+[sub_resource type="VisualShader" id=21]
+graph_offset = Vector2( 0, -57 )
+
+[sub_resource type="ShaderMaterial" id=22]
+shader = SubResource( 21 )
+
+[sub_resource type="SphereMesh" id=23]
+material = SubResource( 22 )
+
+[sub_resource type="VisualShaderNodeVectorOp" id=24]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 1, 1, 1 ) ]
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture" id=25]
+texture = ExtResource( 4 )
+
+[sub_resource type="VisualShaderNodeTexture" id=26]
+texture = ExtResource( 7 )
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeVectorOp" id=27]
+output_port_for_preview = 0
+
+[sub_resource type="VisualShaderNodeInput" id=28]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorOp" id=29]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 5, 5, 1 ) ]
+
+[sub_resource type="VisualShaderNodeTexture" id=30]
+texture = ExtResource( 7 )
+
+[sub_resource type="VisualShader" id=31]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_5;
+uniform sampler2D tex_frg_7 : hint_albedo;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:5
+	vec4 tex_frg_5_read = texture(tex_frg_5, UV.xy);
+	vec3 n_out5p0 = tex_frg_5_read.rgb;
+	float n_out5p1 = tex_frg_5_read.a;
+
+// Texture:7
+	vec4 tex_frg_7_read = texture(tex_frg_7, UV.xy);
+	vec3 n_out7p0 = tex_frg_7_read.rgb;
+	float n_out7p1 = tex_frg_7_read.a;
+
+// VectorOp:10
+	vec3 n_in10p1 = vec3(1.00000, 1.00000, 1.00000);
+	vec3 n_out10p0 = n_out7p0 * n_in10p1;
+
+// VectorOp:8
+	vec3 n_in8p0 = vec3(0.00000, 0.00000, 0.00000);
+	vec3 n_out8p0 = n_in8p0 + n_out10p0;
+
+// Output:0
+	ALBEDO = n_out5p0;
+	NORMALMAP = n_out8p0;
+	NORMALMAP_DEPTH = dot(n_out8p0, vec3(0.333333, 0.333333, 0.333333));
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -215.59, 23.6111 )
+nodes/vertex/0/position = Vector2( 620, 120 )
+nodes/vertex/2/node = SubResource( 28 )
+nodes/vertex/2/position = Vector2( -40, 80 )
+nodes/vertex/4/node = SubResource( 29 )
+nodes/vertex/4/position = Vector2( 340, 100 )
+nodes/vertex/5/node = SubResource( 30 )
+nodes/vertex/5/position = Vector2( 40, 160 )
+nodes/vertex/connections = PoolIntArray( 5, 0, 4, 1 )
+nodes/fragment/0/position = Vector2( 660, 60 )
+nodes/fragment/5/node = SubResource( 25 )
+nodes/fragment/5/position = Vector2( 400, -60 )
+nodes/fragment/7/node = SubResource( 26 )
+nodes/fragment/7/position = Vector2( 0, 60 )
+nodes/fragment/8/node = SubResource( 27 )
+nodes/fragment/8/position = Vector2( 420, 180 )
+nodes/fragment/10/node = SubResource( 24 )
+nodes/fragment/10/position = Vector2( 220, 160 )
+nodes/fragment/connections = PoolIntArray( 7, 0, 10, 0, 10, 0, 8, 1, 8, 0, 0, 8, 8, 0, 0, 9, 5, 0, 0, 0 )
+
+[sub_resource type="ShaderMaterial" id=32]
+shader = SubResource( 31 )
+
+[sub_resource type="SpatialMaterial" id=33]
+flags_transparent = true
+flags_disable_ambient_light = true
+params_blend_mode = 1
+params_depth_draw_mode = 2
+params_point_size = 0.1
+albedo_color = Color( 0.211765, 0.262745, 0.368627, 1 )
+metallic_specular = 0.0
+roughness = 0.0
+refraction_enabled = true
+refraction_scale = 1.0
+refraction_texture_channel = 2
+
+[sub_resource type="SphereMesh" id=34]
+material = SubResource( 33 )
+
+[sub_resource type="VisualShaderNodeTexture" id=35]
+texture = ExtResource( 5 )
+
+[sub_resource type="VisualShaderNodeInput" id=36]
+input_name = "uv"
+
+[sub_resource type="VisualShader" id=37]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:3
+	vec3 n_out3p0 = vec3(UV, 0.0);
+
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, n_out3p0.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 0, 225 )
+nodes/fragment/0/position = Vector2( 440, 300 )
+nodes/fragment/2/node = SubResource( 35 )
+nodes/fragment/2/position = Vector2( 180, 280 )
+nodes/fragment/3/node = SubResource( 36 )
+nodes/fragment/3/position = Vector2( -20, 380 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 3, 0, 2, 0 )
+
+[sub_resource type="ShaderMaterial" id=38]
+shader = SubResource( 37 )
+
+[sub_resource type="SphereMesh" id=39]
+material = SubResource( 38 )
+
+[sub_resource type="SphereShape" id=40]
+
+[sub_resource type="VisualShaderNodeTexture" id=41]
+texture = ExtResource( 11 )
+
+[sub_resource type="VisualShader" id=42]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, UV.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 251.411, 161.04 )
+nodes/fragment/0/position = Vector2( 475, 133 )
+nodes/fragment/2/node = SubResource( 41 )
+nodes/fragment/2/position = Vector2( 190, 152 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
+
+[sub_resource type="ShaderMaterial" id=43]
+shader = SubResource( 42 )
+
+[sub_resource type="SphereMesh" id=44]
+material = SubResource( 43 )
+
+[sub_resource type="SphereShape" id=45]
+
+[sub_resource type="VisualShaderNodeTexture" id=46]
+texture = ExtResource( 13 )
+
+[sub_resource type="VisualShader" id=47]
+code = "shader_type spatial;
+uniform sampler2D tex_frg_2;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Texture:2
+	vec4 tex_frg_2_read = texture(tex_frg_2, UV.xy);
+	vec3 n_out2p0 = tex_frg_2_read.rgb;
+	float n_out2p1 = tex_frg_2_read.a;
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 251.411, 161.04 )
+nodes/fragment/2/node = SubResource( 46 )
+nodes/fragment/2/position = Vector2( 190, 171 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0 )
+
+[sub_resource type="ShaderMaterial" id=48]
+shader = SubResource( 47 )
+
+[sub_resource type="SphereMesh" id=49]
+material = SubResource( 48 )
+
+[sub_resource type="SphereShape" id=50]
+
+[sub_resource type="SpatialMaterial" id=51]
+flags_transparent = true
+params_depth_draw_mode = 2
+emission_enabled = true
+emission = Color( 0, 0, 0, 1 )
+emission_energy = 3.48
+emission_operator = 0
+emission_on_uv2 = false
+emission_texture = ExtResource( 1 )
+
+[sub_resource type="SphereMesh" id=52]
+material = SubResource( 51 )
+
+[sub_resource type="SphereShape" id=53]
+
+[sub_resource type="PanoramaSky" id=54]
+radiance_size = 1
+panorama = ExtResource( 3 )
+
+[sub_resource type="Environment" id=55]
+background_mode = 2
+background_sky = SubResource( 54 )
+background_sky_custom_fov = 55.0
+ambient_light_sky_contribution = 0.0
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 15 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 24 )
+volume_db = -10.0
+autoplay = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource( 16 )
+
+[node name="OmniLight" type="OmniLight" parent="CanvasLayer"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+light_energy = 2.45
+omni_range = 10000.0
+omni_attenuation = 2.92817
+
+[node name="Ship" type="KinematicBody" parent="CanvasLayer"]
+transform = Transform( 0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 150, 500, 0 )
+script = ExtResource( 19 )
+
+[node name="Burn" type="AudioStreamPlayer" parent="CanvasLayer/Ship"]
+stream = ExtResource( 21 )
+volume_db = -10.0
+pitch_scale = 0.15
+
+[node name="ShipCamera" type="Camera" parent="CanvasLayer/Ship"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 7, -1 )
+fov = 39.1
+far = 8192.0
+
+[node name="ShipMesh" type="MeshInstance" parent="CanvasLayer/Ship"]
+transform = Transform( 0.1, 0, 0, 0, 0.0422618, 0.0906308, 0, -0.0906308, 0.0422618, 0, 0, 0 )
+layers = 2147483649
+mesh = ExtResource( 17 )
+material/0 = null
+material/1 = null
+material/2 = null
+script = ExtResource( 18 )
+
+[node name="Fire" type="MeshInstance" parent="CanvasLayer/Ship"]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1, 0.1 )
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="SpotLight" type="SpotLight" parent="CanvasLayer/Ship"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 15, 0 )
+spot_range = 2.0
+
+[node name="CollisionShape" type="CollisionShape" parent="CanvasLayer/Ship"]
+transform = Transform( 1.00098, 0, 0, 0, 1.00098, 0, 0, 0, 1.00098, 0, 0, 0 )
+shape = SubResource( 8 )
+
+[node name="Mars" type="KinematicBody" parent="CanvasLayer"]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 1000, 0, 0 )
+script = ExtResource( 9 )
+
+[node name="MarsCamera" type="Camera" parent="CanvasLayer/Mars"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 18.421, 0 )
+fov = 55.0
+
+[node name="Mars" type="MeshInstance" parent="CanvasLayer/Mars"]
+mesh = SubResource( 12 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="CanvasLayer/Mars"]
+shape = SubResource( 13 )
+
+[node name="Earth" type="KinematicBody" parent="CanvasLayer"]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 490, 0, 0 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="CanvasLayer/Earth"]
+shape = SubResource( 14 )
+
+[node name="EarthCamera" type="Camera" parent="CanvasLayer/Earth"]
+transform = Transform( 1, -0.000174533, -2.0806e-11, -7.62908e-12, -1.62921e-07, 1, -0.000174533, -1, -1.62921e-07, 0, 10, 0 )
+current = true
+fov = 22.0
+size = 5.0
+
+[node name="CloudMesh" type="MeshInstance" parent="CanvasLayer/Earth"]
+transform = Transform( -0.0841142, -0.0105485, 1.02651, -0.128166, 1.02199, -2.95472e-12, -1.01853, -0.127731, -0.0847731, 0, 0, 0 )
+mesh = SubResource( 15 )
+material/0 = SubResource( 20 )
+
+[node name="EarthMesh" type="MeshInstance" parent="CanvasLayer/Earth" groups=[
+"planets",
+]]
+mesh = SubResource( 23 )
+material/0 = SubResource( 32 )
+
+[node name="Atmosphere" type="MeshInstance" parent="CanvasLayer/Earth"]
+transform = Transform( 1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 0, 0, 0 )
+visible = false
+mesh = SubResource( 34 )
+material/0 = null
+
+[node name="Moon" type="KinematicBody" parent="CanvasLayer"]
+transform = Transform( 2.7, 0, 0, 0, 2.7, 0, 0, 0, 2.7, 510, 0, 0 )
+script = ExtResource( 6 )
+
+[node name="MoonMesh" type="MeshInstance" parent="CanvasLayer/Moon"]
+transform = Transform( 0.27, 0, 0, 0, 0.27, 0, 0, 0, 0.27, 0, 0, 0 )
+mesh = SubResource( 39 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="CanvasLayer/Moon"]
+shape = SubResource( 40 )
+
+[node name="Mercury" type="KinematicBody" parent="CanvasLayer"]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 150, 0, 0 )
+script = ExtResource( 12 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CanvasLayer/Mercury"]
+mesh = SubResource( 44 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="CanvasLayer/Mercury"]
+shape = SubResource( 45 )
+
+[node name="Venus" type="KinematicBody" parent="CanvasLayer"]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 330, 0, 0 )
+script = ExtResource( 14 )
+
+[node name="MeshInstance" type="MeshInstance" parent="CanvasLayer/Venus"]
+mesh = SubResource( 49 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="CanvasLayer/Venus"]
+shape = SubResource( 50 )
+
+[node name="Sun" type="KinematicBody" parent="CanvasLayer"]
+transform = Transform( 50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0 )
+script = ExtResource( 23 )
+
+[node name="SunCamera" type="Camera" parent="CanvasLayer/Sun"]
+transform = Transform( 0.1, 0, 0, 0, -1.62921e-08, 0.1, 0, -0.1, -1.62921e-08, 0, 5, 0 )
+fov = 150.0
+far = 8192.0
+
+[node name="SunMesh" type="MeshInstance" parent="CanvasLayer/Sun"]
+mesh = SubResource( 52 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="CanvasLayer/Sun"]
+shape = SubResource( 53 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 55 )
+
+[node name="HUD" parent="." instance=ExtResource( 22 )]
